@@ -10,12 +10,10 @@ import (
 
 func main() {
 
-
 	NewRabbitMQ()
 	defer MyRabbitMQ.Close()
 
 	go service.Suckit("test")
-
 
 	r := gin.Default()
 	r.GET("/pub", func(c *gin.Context) {
@@ -26,7 +24,6 @@ func main() {
 			return
 		}
 
-
 		// err := MyRabbitMQ.Publish("test", "hello world")
 		err := MyRabbitMQ.Publish("test", myquery)
 		if err != nil {
@@ -36,15 +33,9 @@ func main() {
 		c.JSON(200, gin.H{"message": "published"})
 	})
 
-	err := r.Run(":8080")
+	err := r.Run("127.0.0.1:8080")
 	if err != nil {
 		panic(err)
 	}
-
-
-
-
-
-
 
 }
